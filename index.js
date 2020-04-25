@@ -24,12 +24,12 @@ async function main () {
 
   cmdFiles.forEach(f => {
     try {
-      const props = require(`./commands/${f}`)
+      const props = require(`./src/commands/${f}`)
       if (f.split('.').slice(-1)[0] !== 'js') return
       if (props.init) {
         props.init(client)
       }
-      client.commands.set(props.command.name, props)
+      client.commands.set(props.config.name, props)
     } catch (e) {
       console.log(`[#ERROR] Impossivel executar comando ${f}: ${e}`)
     }
@@ -39,7 +39,7 @@ async function main () {
 
   evtFiles.forEach(f => {
     const eventName = f.split('.')[0]
-    const event = require(`./events/${f}`)
+    const event = require(`./src/events/${f}`)
 
     client.on(eventName, event.bind(null, client))
   })

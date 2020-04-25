@@ -1,14 +1,14 @@
 module.exports = {
   async run (client, message) {
-
+    await message.delete()
+    message.channel.send('Ivens é troll d+!!!')
   },
 
-  get command () {
+  get config () {
     return {
-      name: 'troll',
-      // category: categories.USER,
-      description: 'Descrição do Comando',
-      usage: 'comando',
+      name: 'ivens',
+      description: 'Diz como ivens é troll',
+      usage: '$ivens',
       type: 'message'
     }
   }

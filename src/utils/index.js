@@ -1,5 +1,5 @@
 module.exports = {
-  isCommand: message => message.content.startsWith(process.env.COMMAND_PREFIX),
+  isCommand: message => 'content' in message && typeof message.content === 'string' && message.content.startsWith(process.env.COMMAND_PREFIX),
   getComand (message) {
     const args = message.content
       .slice(process.env.COMMAND_PREFIX.length)
@@ -17,6 +17,7 @@ module.exports = {
    */
   hasComandType (command, type) {
     if (!command) return false
-    return Array.isArray(command.type) ? command.type.includes(type) : command.type === type
+    const comandType = command.config.type
+    return Array.isArray(comandType) ? comandType.includes(type) : comandType === type
   }
 }

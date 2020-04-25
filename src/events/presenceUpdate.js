@@ -14,7 +14,7 @@ const runCommand = async (client, message) => {
     '[#LOG]',
     `${message.author.username} (${
     message.author.id
-    }) executou o comando: ${cmd.command.name}`
+    }) executou o comando: ${cmd.config.name}`
   )
   try {
     if (cmd.validate) {

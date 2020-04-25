@@ -8,13 +8,11 @@ const runCommand = async (client, message) => {
   const isCmdType = utils.hasComandType(cmd, 'message')
   if (!isCmdType) return
 
-  message.delete().catch(() => { })
-
   console.log(
     '[#LOG]',
     `${message.author.username} (${
     message.author.id
-    }) executou o comando: ${cmd.command.name}`
+    }) executou o comando: ${cmd.config.name}`
   )
   try {
     if (cmd.validate) {

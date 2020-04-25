@@ -3,13 +3,12 @@ module.exports = {
     // function to init
     // run before register
   },
-  get command () {
-    // configs
+  get config () {
     return {
-      name: 'troll',
+      name: 'example', // the comand name to call
+      type: 'message', // the command event type
       description: 'Descrição do Comando',
-      usage: 'comando',
-      type: 'message'
+      usage: 'use assim $example'
     }
   },
   validate (client, message, args) {
