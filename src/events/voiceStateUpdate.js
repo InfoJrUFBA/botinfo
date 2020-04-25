@@ -5,8 +5,10 @@ const runCommand = async (client, message) => {
   const { args, command } = utils.getComand(message)
 
   const cmd = client.commands.get(command)
-  const isCmdType = utils.hasComandType(cmd, 'message')
+  const isCmdType = utils.hasComandType(cmd, 'voiceStateUpdate')
   if (!isCmdType) return
+
+  message.delete().catch(() => { })
 
   console.log(
     '[#LOG]',

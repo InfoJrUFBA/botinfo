@@ -1,14 +1,15 @@
 module.exports = {
-	async run(client, message) {
-        
-    },
+  async run (client, message) {
+    await message.delete()
+    message.channel.send('Ivens é troll d+!!!')
+  },
 
-	get command() {
-		return {
-			name: 'troll',
-			category: categories.USER,
-			description: 'Descrição do Comando',
-			usage: 'comando',
-		};
-	},
-};
+  get config () {
+    return {
+      name: 'ivens',
+      description: 'Diz como ivens é troll',
+      usage: '$ivens',
+      type: 'message'
+    }
+  }
+}

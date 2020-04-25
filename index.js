@@ -1,11 +1,11 @@
-const Discord = require('discord.js'); 
+const Discord = require('discord.js')
 const fs = require('fs')
 require('dotenv').config()
-const client = new Discord.Client();
+const client = new Discord.Client()
 
-const { prefix, token } = require('./src/config');
+const { token } = require('./src/config')
 
-client.commands = new Discord.Collection();
+client.commands = new Discord.Collection()
 
 // client.on('presenceUpdate', event => {
 //     console.log('presenceUpdate', event)
@@ -19,32 +19,32 @@ client.commands = new Discord.Collection();
 //     console.log('guildMemberSpeaking', event)
 //     // e aqui
 // })
-async function main() {
-  const cmdFiles = fs.readdirSync('src/commands/');
+async function main () {
+  const cmdFiles = fs.readdirSync('src/commands/')
 
   cmdFiles.forEach(f => {
-		try {
-			const props = require(`./commands/${f}`);
-			if (f.split('.').slice(-1)[0] !== 'js') return;
-			if (props.init) {
-				props.init(client);
-			}
-			client.commands.set(props.command.name, props);
-		} catch (e) {
-			console.log(`[#ERROR] Impossivel executar comando ${f}: ${e}`);
-		}
-  });
-  
-  const evtFiles = fs.readdirSync('src/events/');
+    try {
+      const props = require(`./src/commands/${f}`)
+      if (f.split('.').slice(-1)[0] !== 'js') return
+      if (props.init) {
+        props.init(client)
+      }
+      client.commands.set(props.config.name, props)
+    } catch (e) {
+      console.log(`[#ERROR] Impossivel executar comando ${f}: ${e}`)
+    }
+  })
+
+  const evtFiles = fs.readdirSync('src/events/')
 
   evtFiles.forEach(f => {
-		const eventName = f.split('.')[0];
-		const event = require(`./events/${f}`);
+    const eventName = f.split('.')[0]
+    const event = require(`./src/events/${f}`)
 
-		client.on(eventName, event.bind(null, client));
-  });
+    client.on(eventName, event.bind(null, client))
+  })
 
-  client.login(token); 
+  client.login(token)
 }
 
 main().catch(console.error)

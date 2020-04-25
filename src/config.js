@@ -1,5 +1,5 @@
 
 module.exports = {
-    "prefix": "/",
-    "token": process.env.DISCORD_TOKEN
+  prefix: process.env.COMMAND_PREFIX,
+  token: process.env.DISCORD_TOKEN
 }
