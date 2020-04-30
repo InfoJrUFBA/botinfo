@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js",
+    "start": "pm2-runtime start ecosystem.config.js --env production",
+    "start:dev": "nodemon index.js",
+    "start:debug": "nodemon --inspect index.js",
     "fix": "eslint --fix ./src index.js"
   },
   "author": "",
@@ -14,7 +16,8 @@
     "discord.js": "^12.0.2",
     "dotenv": "^8.2.0",
     "knex": "^0.21.0",
-    "pg": "^8.0.3"
+    "pg": "^8.0.3",
+    "pm2": "^4.4.0"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
