@@ -8,7 +8,7 @@ module.exports = {
   synchronize: false,
   logging: false,
   extra: {
-    // ssl: true
+    ssl: true
   },
   entities: [
     'src/database/entity/**/*.js'
