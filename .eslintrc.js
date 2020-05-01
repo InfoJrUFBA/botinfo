@@ -1,3 +1,10 @@
 module.exports = {
-	"extends": "standard"
+	extends: "standard",
+	parser: "babel-eslint",
+	parserOptions: {
+		ecmaFeatures: {
+			experimentalDecorators: true,
+			legacyDecorators: true,
+		},
+	},
 }

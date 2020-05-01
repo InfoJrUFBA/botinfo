@@ -1,0 +1,8 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"experimentalDecorators": true,
+		"useDefineForClassFields": true,
+	},
+	"include": ["src/**/*"]
+}

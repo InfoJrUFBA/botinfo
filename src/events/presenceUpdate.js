@@ -1,44 +1,62 @@
-const utils = require('../utils')
-const runCommand = async (client, message) => {
-  if (!utils.isCommand(message)) return
+import moment from 'moment'
+import { UserRep } from '../database/entity/User'
+import { StatusTimeRep } from '../database/entity/StatusTime'
+// import { Client } from 'discord.js'
 
-  const { args, command } = utils.getComand(message)
+module.exports = async (client, oldPresence, newPresence) => {
+  const discordUser = oldPresence?.user || await client.users.fetch(oldPresence?.userID ?? newPresence?.userID)
+  if (discordUser.bot) return
 
-  const cmd = client.commands.get(command)
-  const isCmdType = utils.hasComandType(cmd, 'presenceUpdate')
-  if (!isCmdType) return
+  const user = await UserRep().saveOrGet({
+    name: discordUser.username,
+    discord_id: discordUser.id
+  })
 
-  message.delete().catch(() => { })
-
-  console.log(
-    '[#LOG]',
-    `${message.author.username} (${
-    message.author.id
-    }) executou o comando: ${cmd.config.name}`
-  )
-  try {
-    if (cmd.validate) {
-      await cmd.validate(client, message, args)
+  if (oldPresence?.status !== newPresence?.status) {
+    const [statusHistory] = await StatusTimeRep().find({ where: { user }, order: { updatedDate: 'DESC' }, take: 1 })
+    if (statusHistory && statusHistory.end === null) {
+      StatusTimeRep().update(statusHistory.id, { end: moment().toDate() })
     }
-    await cmd.run(client, message, args)
-    if (cmd.success) {
-      await cmd.success(client, message, args)
-    }
-  } catch (err) {
-    console.error(err)
-    if (cmd.fail) {
-      await cmd.fail(err, client, message, args)
-      return
-    }
-  } finally {
-    if (cmd.after) {
-      await cmd.after(client, message, args)
-    }
+    StatusTimeRep().save({
+      user,
+      status: newPresence.status,
+      start: moment().toDate()
+    })
   }
 }
 
-module.exports = async (client, message) => {
-  await Promise.all([
-    runCommand(client, message)
-  ])
+// eslint-disable-next-line no-unused-vars
+async function runCommand (client, oldPresence, newPresence) {
+  const cmd = client.commands.filter(e => e.config.type === 'presenceUpdate').map(async command => {
+    try {
+      if (cmd.validate) {
+        await cmd.validate(client, oldPresence, newPresence)
+      }
+      await cmd.run(client, oldPresence, newPresence)
+      if (cmd.success) {
+        await cmd.success(client, oldPresence, newPresence)
+      }
+    } catch (err) {
+      console.error(err)
+      if (cmd.fail) {
+        await cmd.fail(err, client, oldPresence, newPresence)
+        return
+      }
+    } finally {
+      if (cmd.after) {
+        await cmd.after(client, oldPresence, newPresence)
+      }
+    }
+  })
+
+  // console.log(
+  //   '[#LOG]',
+  //   `${message.author.username} (${
+  //   message.author.id
+  //   }) executou o comando: ${cmd.config.name}`
+  // )
 }
+
+// module.exports = async (client, oldPresence, newPresence) => {
+//   await Promise.all(runCommand(client, oldPresence, newPresence))
+// }
