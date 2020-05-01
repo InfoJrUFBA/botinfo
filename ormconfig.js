@@ -1,3 +1,4 @@
+const isDev = process.env.NODE_ENV !== 'production'
 module.exports = {
   type: 'postgres',
   host: process.env.DATABASE_HOST,
@@ -13,13 +14,13 @@ module.exports = {
     }
   },
   entities: [
-    'src/database/entity/**/*.js'
+    `${isDev ? 'src' : 'dist'}/database/entity/**/*.js`
   ],
   migrations: [
-    'src/database/migration/**/*.js'
+    `${isDev ? 'src' : 'dist'}/database/migration/**/*.js`
   ],
   subscribers: [
-    'src/database/subscriber/**/*.js'
+    `${isDev ? 'src' : 'dist'}/database/subscriber/**/*.js`
   ],
   cli: {
     entitiesDir: 'src/database/entity',

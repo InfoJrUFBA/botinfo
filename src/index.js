@@ -1,13 +1,11 @@
+import 'dotenv/config'
 import Discord from 'discord.js'
 import { readdirSync } from 'fs'
 import { resolve } from 'path'
 import { createConnection } from 'typeorm'
-import dotenv from 'dotenv'
-dotenv.config()
-const { token } = require('./config')
+import { token } from './config'
 
 const client = new Discord.Client()
-
 client.commands = new Discord.Collection()
 
 async function main () {
@@ -42,10 +40,6 @@ async function main () {
 
 main().catch(console.error)
 
-// client.on('presenceUpdate', event => {
-//     console.log('presenceUpdate', event)
-//     // aqui
-// })
 // client.on('voiceStateUpdate', event => {
 //     console.log('voiceStateUpdate', event)
 //     // e aqui

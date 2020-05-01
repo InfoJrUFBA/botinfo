@@ -8,7 +8,7 @@
     "start": "pm2-runtime start ecosystem.config.js --env production",
     "start:dev": "nodemon ./src/index.js --exec babel-node",
     "start:debug": "nodemon --inspect ./src/index.js --exec babel-node",
-    "build": "yarn clean && babel src --out-dir dist && rimraf src",
+    "build": "yarn clean && babel src --out-dir dist",
     "fix": "eslint --fix ./src",
     "clean": "rimraf ./dist",
     "typeorm": "babel-node ./node_modules/typeorm/cli.js"
