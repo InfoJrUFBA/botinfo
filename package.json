@@ -6,10 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "pm2-runtime start ecosystem.config.js --env production",
-    "start:dev": "nodemon index.js --exec babel-node",
-    "start:debug": "nodemon --inspect index.js --exec babel-node",
+    "start:dev": "nodemon ./src/index.js --exec babel-node",
+    "start:debug": "nodemon --inspect ./src/index.js --exec babel-node",
     "build": "babel src --out-dir dist",
-    "fix": "eslint --fix ./src index.js",
+    "fix": "eslint --fix ./src",
     "clean": "rimraf ./dist",
     "typeorm": "babel-node ./node_modules/typeorm/cli.js"
   },
@@ -18,9 +18,9 @@
   "dependencies": {
     "discord.js": "^12.0.2",
     "dotenv": "^8.2.0",
-    "knex": "^0.21.0",
     "pg": "^8.0.3",
-    "pm2": "^4.4.0"
+    "pm2": "^4.4.0",
+    "typeorm": "^0.2.24"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
@@ -31,6 +31,7 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
     "@babel/plugin-proposal-optional-chaining": "^7.9.0",
     "@babel/preset-env": "^7.9.6",
+    "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.20.2",
