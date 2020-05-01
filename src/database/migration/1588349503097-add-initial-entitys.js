@@ -1,5 +1,5 @@
-export class addInitialEntitys1588308165398 {
-    name = 'addInitialEntitys1588308165398'
+export class addInitialEntitys1588349503097 {
+    name = 'addInitialEntitys1588349503097'
 
     async up (queryRunner) {
       await queryRunner.query('CREATE TABLE "user" ("id" SERIAL NOT NULL, "discord_id" character varying NOT NULL, "name" character varying NOT NULL, "bio" character varying, "curso" character varying, "createdDate" TIMESTAMP NOT NULL DEFAULT now(), "updatedDate" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "UQ_a695038a038c00cf65735299628" UNIQUE ("discord_id"), CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))', undefined)

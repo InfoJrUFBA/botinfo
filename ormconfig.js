@@ -8,7 +8,9 @@ module.exports = {
   synchronize: false,
   logging: false,
   extra: {
-    ssl: true
+    ssl: {
+      rejectUnauthorized: false
+    }
   },
   entities: [
     'src/database/entity/**/*.js'
