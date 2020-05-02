@@ -3,7 +3,6 @@ module.exports = {
     name: 'infobot',
     script: './dist/index.js',
     watch: '.',
-    instances: 'max',
-    exec_mode: 'cluster'
+    instances: '1'
   }]
 }
