@@ -1,6 +1,6 @@
 module.exports = {
   async run (client, message) {
-    await message.delete()
+    await message.delete().catch(() => {})
     message.channel.send('Ivens é troll d+!!!')
   },
 
