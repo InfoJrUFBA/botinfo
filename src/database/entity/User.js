@@ -36,7 +36,7 @@ export class UserRepository extends Repository {
       const saved = await this.save(user)
       return saved
     } catch (err) {
-      const { discord_id, ...rest } = user
+      const { discord_id } = user
       // await this.update({ discord_id }, rest)
       const geted = await this.findOne({ discord_id })
       return geted
