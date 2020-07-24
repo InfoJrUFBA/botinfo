@@ -15,7 +15,7 @@ module.exports = {
         
         const embeddedMessage = {
             color: '#99cc00',
-            title: `Issues de ${message.guild.member(message.author).nickname || message.author.username}`,
+            title: `Issues de ${message.guild ? message.guild.member(message.author).nickname : message.author.username}`,
             url: web_url,
             author: {
                 name: `Gitlab @${username}`,
