@@ -2,6 +2,7 @@ import { UserRep } from '../database/entity/User';
 module.exports = {
   async run (client, message, args) {
     await message.delete().catch(() => {})
+    if(message.author.bot) return;
     if(args[0] != undefined){
       //Associates gitlab username to discord id if passed as arg
       const find = await UserRep().findOne({gitlab: args[0]});
@@ -19,7 +20,7 @@ module.exports = {
       //Get gitlab username of a discord user if the command was used wihtout arg
       const find = await UserRep().findOne({discord_id: message.author.id});
       if(!find){
-        message.channel.send(`Você ainda não registrou seu Gitlab. User !gitlab yourGitlab`)
+        message.channel.send(`Você ainda não registrou seu Gitlab. Passe seu username do gitlab como argumento.`)
       } else {
         const user = await UserRep().saveOrGet({
           name: message.author.username,
