@@ -10,7 +10,7 @@ export class User {
   @Column('varchar', { unique: true })
   discord_id
 
-  @Column('varchar', { unique: true })
+  @Column('varchar', { nullable: true })
   gitlab
 
   @Column('varchar')
