@@ -10,6 +10,9 @@ export class User {
   @Column('varchar', { unique: true })
   discord_id
 
+  @Column('varchar', { unique: true })
+  gitlab
+
   @Column('varchar')
   name
 
@@ -25,7 +28,7 @@ export class User {
   @UpdateDateColumn()
   updatedDate
 
-  @OneToMany(type => StatusTime, statustime => statustime.user)
+  @OneToMany(type => StatusTime, statustime => statustime.user, {cascade: true})
   statustime
 }
 
@@ -36,11 +39,18 @@ export class UserRepository extends Repository {
       const saved = await this.save(user)
       return saved
     } catch (err) {
-      const { discord_id } = user
-      // await this.update({ discord_id }, rest)
+      const {discord_id} = user
+      //await this.update({gitlab})
       const geted = await this.findOne({ discord_id })
-      return geted
+      return geted;
     }
+  }
+
+  async updateAndGet(user){
+    const {discord_id} = user;
+    const geted = await this.findOne({discord_id});
+    const saved = await this.save({...geted, ...user});
+    return saved;
   }
 }
 
