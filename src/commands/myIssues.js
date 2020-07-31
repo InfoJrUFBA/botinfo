@@ -2,11 +2,25 @@ import axios from 'axios';
 import { UserRep } from '../database/entity/User';
 module.exports = {
     async run (client, message) {
+      if(message.author.bot) return;
 
         const {gitlab: gitlabUser} = await UserRep().findOne({discord_id: message.author.id}) || {}
 
-        const {data: [{id: gitlabID, avatar_url, web_url, username}]} = await axios.get(`https://gitlab.com/api/v4/users?username=${gitlabUser}`)
+        if(!gitlabUser){
+          message.channel.send(`Usuário sem gitlab`);
+          return;
+        }
+
+        const {data: [{id: gitlabID, avatar_url, web_url, username} = {}]} = await axios.get(`https://gitlab.com/api/v4/groups/3340354/members?query=${gitlabUser}`, {
+          headers: {
+            Authorization: "Bearer cfM3kpBtA6uFzJXFjh-J"
+          }
+        })
     
+        if(!gitlabID){
+          message.channel.send(`@${gitlabUser} não encontrado no grupo da InfoJR`);
+          return;
+        }
         const {data} = await axios.get(`https://gitlab.com/api/v4/groups/3340354/issues?assignee_id=${gitlabID}&&state=opened`, {
             headers: {
               Authorization: "Bearer cfM3kpBtA6uFzJXFjh-J"

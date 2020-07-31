@@ -12,8 +12,7 @@ module.exports = {
             }
           })
           for (let data of oi.data) {
-            const {title, web_url, assignees,
-                    _links:{project},
+            const {title, description, web_url, assignees, labels,
                     milestone: {title: milestoneTitle, due_date}
                   } = data
             if(due_date == null) continue //Pula as issues com Milestone sem data definida
@@ -30,7 +29,11 @@ module.exports = {
               .setAuthor(milestoneTitle)
               .setTitle(title)
               .setURL(web_url)
-              .setDescription(usernames.join(", "))
+              .setDescription(description ? description.substring(0,50)+"..." : "Sem descrição.")
+              .addFields(
+                {name: "Assinantes", value: usernames.join(", ") || "Sem assinantes", inline: true},
+                {name: "Labels", value: labels.join(", ") || "Sem labels", inline: true}
+                )
               .setTimestamp()
             await message.channel.send(embeddedMessage)
         }
