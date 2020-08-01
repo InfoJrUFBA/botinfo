@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany, getCustomRepository, EntityRepository, Repository } from 'typeorm'
 import { StatusTime } from './StatusTime'
+import { MeetPresence } from './MeetPresence'
 
 @Entity()
 export class User {
@@ -28,8 +29,11 @@ export class User {
   @UpdateDateColumn()
   updatedDate
 
-  @OneToMany(type => StatusTime, statustime => statustime.user, {cascade: true})
+  @OneToMany(type => StatusTime, statustime => statustime.user, { cascade: true })
   statustime
+
+  @OneToMany(type => MeetPresence, meetPresence => meetPresence.user, { cascade: true })
+  meetsPresence
 }
 
 @EntityRepository(User)
@@ -39,18 +43,18 @@ export class UserRepository extends Repository {
       const saved = await this.save(user)
       return saved
     } catch (err) {
-      const {discord_id} = user
-      //await this.update({gitlab})
+      const { discord_id } = user
+
       const geted = await this.findOne({ discord_id })
-      return geted;
+      return geted
     }
   }
 
-  async updateAndGet(user){
-    const {discord_id} = user;
-    const geted = await this.findOne({discord_id});
-    const saved = await this.save({...geted, ...user});
-    return saved;
+  async updateAndGet (user) {
+    const { discord_id } = user
+    const geted = await this.findOne({ discord_id })
+    const saved = await this.save({ ...geted, ...user })
+    return saved
   }
 }
 
