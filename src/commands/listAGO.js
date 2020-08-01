@@ -1,16 +1,18 @@
-import { UserRep } from '../database/entity/User'
+import { MeetPresenceRep } from '../database/entity/MeetPresence'
 
 module.exports = {
   get config () {
     return {
-      name: 'ago', // the comand name to call
-      type: 'message', // the command event type
-      description: 'Lista a table users que tem as pessoas que entraram na sala da AGO apartir do dia 4',
-      usage: 'use assim $ago'
+      name: 'ago',
+      description: 'poxaa',
+      usage: '$ago',
+      type: 'message'
     }
   },
   async run (client, message, args) {
-    const [users, count] = await UserRep().findAndCount()
+    const [meetPresences, count] = await MeetPresenceRep().findAndCount({ relations: ['user'] })
+
+    const users = meetPresences.map(presence => presence.user)
     message.channel.send(`${users.map(user => `name: ${user.name}`).join('\n')} \n total: ${count}`)
   }
 }
