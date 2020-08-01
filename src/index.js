@@ -39,12 +39,3 @@ async function main () {
 }
 
 main().catch(console.error)
-
-// client.on('voiceStateUpdate', event => {
-//     console.log('voiceStateUpdate', event)
-//     // e aqui
-// })
-// client.on('guildMemberSpeaking', event => {
-//     console.log('guildMemberSpeaking', event)
-//     // e aqui
-// })
