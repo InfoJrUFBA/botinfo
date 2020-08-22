@@ -13,6 +13,6 @@ module.exports = {
     const [meetPresences, count] = await MeetPresenceRep().findAndCount({ relations: ['user'] })
 
     const users = meetPresences.map(presence => presence.user)
-    message.channel.send(`${users.map(user => `name: ${user.name}`).join('\n')} \n total: ${count}`)
+    message.channel.send(`${users.map(user => `name: ${client.users.cache.get(`${user.discord_id}`).username}`).join('\n')} \n total: ${count}`)
   }
 }
