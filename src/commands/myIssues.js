@@ -47,7 +47,6 @@ module.exports = {
                 value: `[${title}](${web_url})`,
             }
             embeddedMessage.fields.push(field)
-            console.log(index)
         }
         await message.channel.send({embed: embeddedMessage})
     },
