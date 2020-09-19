@@ -7,11 +7,7 @@ const schema = new Schema({
     unique: true,
     required: true
   },
-  gitlab: {
-    type: String,
-    unique: true,
-    required: true
-  },
+  gitlab: String,
   name: { type: String, required: true },
   bio: String,
   curso: String
