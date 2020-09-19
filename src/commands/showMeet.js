@@ -30,7 +30,7 @@ module.exports = {
 
     function getName (discordId) {
       const guildMember = message.guild.members.cache.get(discordId)
-      return guildMember.nickname || guildMember.username
+      return guildMember.displayName
     }
 
     const messageToSend = `
