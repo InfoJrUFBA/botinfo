@@ -44,7 +44,7 @@ module.exports = {
     return {
       name: 'milestone',
       description: 'Envia todas as issues das milestones atrasadas',
-      usage: '$milestone',
+      usage: 'milestone',
       type: 'message'
     }
   }
