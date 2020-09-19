@@ -32,7 +32,7 @@ module.exports = {
 Reunião ${meet.name} criado por ${meet.owner.name}
 No canal: ${meet.voice_channel.name}
 De ${format(start, 'hh:mm')} até ${format(end, 'hh:mm')} do dia ${format(start, 'dd')} de ${format(start, 'MMMM', { locale: ptBR })}
-Participantes: ${meet.participants.map(e => e.name).join(', ')}
+Participantes: ${meet.participants.map(e => message.guild.members.cache.get(e.discord_id).nickname).join(', ')}
     `
     return message.channel.send(messageToSend)
   },
