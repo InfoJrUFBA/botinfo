@@ -19,6 +19,8 @@ module.exports = async (client, oldState, newState) => {
   }).populate('owner')
 
   if (meet && isWithinInterval(now, { start: meet.startTime, end: meet.endTime })) {
-    await MeetPresence.updateOne({ _id: meet._id }, { $addToSet: { participants: userFromDb._id } })
+    try {
+      await MeetPresence.updateOne({ _id: meet._id }, { $addToSet: { participants: userFromDb._id } })
+    } catch {}
   }
 }
