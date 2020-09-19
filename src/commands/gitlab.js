@@ -44,7 +44,7 @@ module.exports = {
     return {
       name: 'gitlab',
       description: 'Associa o usuário do gitlab ao discord',
-      usage: '$gitlab',
+      usage: 'gitlab',
       type: 'message'
     }
   }

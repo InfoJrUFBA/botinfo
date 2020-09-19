@@ -11,7 +11,7 @@ module.exports = {
     return {
       name: 'help',
       description: 'Ajuda sobre comandos e o que fazem',
-      usage: '$help',
+      usage: 'help',
       type: 'message'
     }
   }

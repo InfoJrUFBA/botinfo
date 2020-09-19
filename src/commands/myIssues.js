@@ -57,7 +57,7 @@ module.exports = {
     return {
       name: 'myissues',
       description: 'Envia todas as issues abertas de um usuário',
-      usage: '$myissues',
+      usage: 'myissues',
       type: 'message'
     }
   }

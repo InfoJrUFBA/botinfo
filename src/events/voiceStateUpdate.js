@@ -1,15 +1,24 @@
-import { UserRep } from '../database/entity/User'
-import { MeetPresenceRep } from '../database/entity/MeetPresence'
+import { User, MeetPresence } from '../database/models'
+import { isWithinInterval } from 'date-fns'
+
 module.exports = async (client, oldState, newState) => {
   const discordUser = oldState?.member?.user || newState?.member?.user
+  const discordChannel = oldState?.channel || newState?.channel
   if (discordUser.bot) return
 
-  if (oldState?.channelID === '693209402987118704' || newState?.channelID === '693209402987118704') {
-    const userFromDb = await UserRep().saveOrGet({
-      name: discordUser.username,
-      discord_id: discordUser.id
-    })
+  const userFromDb = await User.findOneAndUpdate({
+    discord_id: discordUser.id
+  }, { name: discordUser.username }, { upsert: true })
 
-    MeetPresenceRep().save({ user: userFromDb, meet: 'ago_01/08/2020' }).catch(() => {})
+  const now = new Date()
+
+  const meet = await MeetPresence.findOne({
+    startTime: { $lt: now },
+    endTime: { $gt: now },
+    'voice_channel.id': discordChannel.id
+  }).populate('owner')
+
+  if (meet && isWithinInterval(now, { start: meet.startTime, end: meet.endTime })) {
+    await MeetPresence.updateOne({ _id: meet._id }, { $addToSet: { participants: userFromDb._id } })
   }
 }

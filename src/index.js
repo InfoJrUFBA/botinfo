@@ -3,13 +3,15 @@ import Discord from 'discord.js'
 import { readdirSync } from 'fs'
 import { resolve } from 'path'
 import { createConnection } from 'typeorm'
-import { token } from './config'
+import mongoose from 'mongoose'
+import { token, mongoUrl } from './config'
 
 const client = new Discord.Client()
 client.commands = new Discord.Collection()
 
 async function main () {
   await createConnection()
+  await mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
 
   const cmdFiles = readdirSync(resolve(__dirname, 'commands'))
 

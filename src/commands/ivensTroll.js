@@ -8,7 +8,7 @@ module.exports = {
     return {
       name: 'ivens',
       description: 'Diz como ivens é troll',
-      usage: '$ivens',
+      usage: 'ivens',
       type: 'message'
     }
   }
