@@ -1,5 +1,7 @@
 import { User, MeetPresence } from '../database/models'
-import { parseISO, isValid } from 'date-fns'
+import { parse, isValid } from 'date-fns'
+import { zonedTimeToUtc } from 'date-fns-tz'
+import { timeZone } from '../utils'
 
 module.exports = {
   init (cliente) {
@@ -18,13 +20,15 @@ module.exports = {
     if (args.lenth < 4) { throw new Error('Falta argumentos') }
   },
   async run (client, message, [afterDate]) {
-    console.log('ue')
     const userFromDb = await User.findOneAndUpdate({
       discord_id: message.author.id
     }, { name: message.author.username }, { upsert: true })
 
-    const parsedDate = parseISO(afterDate)
-    const meets = await MeetPresence.find({ owner: userFromDb._id, startTime: { $gt: isValid(parsedDate) ? parsedDate : 0 } })
+    const parsedDate = parse(afterDate, 'dd/MM/yyyy HH:mm', new Date())
+    const meets = await MeetPresence.find({
+      owner: userFromDb._id,
+      startTime: { $gt: isValid(parsedDate) ? zonedTimeToUtc(parsedDate, timeZone) : 0 }
+    })
 
     const messageToSend = `
 Suas reuniões criadas:

@@ -19,5 +19,6 @@ module.exports = {
     if (!command) return false
     const comandType = command.config.type
     return Array.isArray(comandType) ? comandType.includes(type) : comandType === type
-  }
+  },
+  timeZone: 'America/Sao_Paulo'
 }

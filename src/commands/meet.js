@@ -1,5 +1,7 @@
 import { User, MeetPresence } from '../database/models'
 import { parse, set } from 'date-fns'
+import { zonedTimeToUtc } from 'date-fns-tz'
+import { timeZone } from '../utils'
 
 module.exports = {
   init (cliente) {
@@ -25,7 +27,7 @@ module.exports = {
     const getTime = (time) => {
       const [hours, minutes] = time.split(':')
       const newDate = parse(date, 'dd/MM', new Date())
-      return set(newDate, { hours, minutes })
+      return zonedTimeToUtc(set(newDate, { hours, minutes }), timeZone)
     }
 
     const userFromDb = await User.findOneAndUpdate({

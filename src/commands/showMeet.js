@@ -1,5 +1,6 @@
 import { MeetPresence } from '../database/models'
 import { format } from 'date-fns'
+import { utcToZonedTime } from 'date-fns-tz'
 import { ptBR } from 'date-fns/locale'
 
 module.exports = {
@@ -24,10 +25,13 @@ module.exports = {
 
     if (!meet) return message.channel.send('Reunião não encontrada')
 
+    const start = utcToZonedTime(meet.startTime, 'America/Sao_Paulo')
+    const end = utcToZonedTime(meet.endTime, 'America/Sao_Paulo')
+
     const messageToSend = `
 Reunião ${meet.name} criado por ${meet.owner.name}
 No canal: ${meet.voice_channel.name}
-De ${format(meet.startTime, 'hh:mm')} até ${format(meet.endTime, 'hh:mm')} do dia ${format(meet.startTime, 'dd')} de ${format(meet.startTime, 'MMMM', { locale: ptBR })}
+De ${format(start, 'hh:mm')} até ${format(end, 'hh:mm')} do dia ${format(start, 'dd')} de ${format(start, 'MMMM', { locale: ptBR })}
 Participantes: ${meet.participants.map(e => e.name).join(', ')}
     `
     return message.channel.send(messageToSend)
