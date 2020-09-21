@@ -38,6 +38,7 @@ Reunião ${meet.name} criado por ${meet.owner.name}
 No canal: ${meet.voice_channel.name}
 De ${format(start, 'hh:mm')} até ${format(end, 'hh:mm')} do dia ${format(start, 'dd')} de ${format(start, 'MMMM', { locale: ptBR })}
 Participantes: ${meet.participants.map(e => getName(e.discord_id)).join(', ')}
+Quantidade: ${meet.participants.length}
     `
     return message.channel.send(messageToSend)
   },
