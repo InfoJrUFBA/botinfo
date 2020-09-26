@@ -4,6 +4,7 @@ module.exports = {
     const args = message.content
       .slice(process.env.COMMAND_PREFIX.length)
       .trim()
+      .replace('\n', ' ')
       .split(/ +/g)
 
     const command = args.shift().toLowerCase()

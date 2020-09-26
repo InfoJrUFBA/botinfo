@@ -6,7 +6,7 @@ import { createConnection } from 'typeorm'
 import mongoose from 'mongoose'
 import { token, mongoUrl } from './config'
 
-const client = new Discord.Client()
+const client = new Discord.Client({ partials: ['MESSAGE', 'REACTION'] })
 client.commands = new Discord.Collection()
 
 async function main () {
@@ -37,7 +37,8 @@ async function main () {
     client.on(eventName, event.bind(null, client))
   })
 
-  client.login(token)
+  await client.login(token)
+  console.log('bot started')
 }
 
 main().catch(console.error)
