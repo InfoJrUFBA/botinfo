@@ -30,6 +30,7 @@ module.exports = {
 
     function getName (discordId) {
       const guildMember = message.guild.members.cache.get(discordId)
+      if (!guildMember) return "Usuário não encontrado"
       return guildMember.displayName
     }
 
