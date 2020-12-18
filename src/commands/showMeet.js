@@ -28,9 +28,9 @@ module.exports = {
     const start = utcToZonedTime(meet.startTime, 'America/Sao_Paulo')
     const end = utcToZonedTime(meet.endTime, 'America/Sao_Paulo')
 
-    function getName (discordId) {
-      const guildMember = message.guild.members.cache.get(discordId)
-      if (!guildMember) return "Usuário não encontrado"
+    function getNameFromParticipant (participant) {
+      const guildMember = message.guild.members.cache.get(participant.discord_id)
+      if (!guildMember) return participant.name + "(deleted)"
       return guildMember.displayName
     }
 
@@ -38,7 +38,7 @@ module.exports = {
 Reunião ${meet.name} criado por ${meet.owner.name}
 No canal: ${meet.voice_channel.name}
 De ${format(start, 'hh:mm')} até ${format(end, 'hh:mm')} do dia ${format(start, 'dd')} de ${format(start, 'MMMM', { locale: ptBR })}
-Participantes: ${meet.participants.map(e => getName(e.discord_id)).join(', ')}
+Participantes: ${meet.participants.map(getNameFromParticipant).join(', ')}
 Quantidade: ${meet.participants.length}
     `
     return message.channel.send(messageToSend)
