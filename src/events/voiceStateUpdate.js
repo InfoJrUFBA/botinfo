@@ -3,7 +3,7 @@
 // import { isWithinInterval } from 'date-fns'
 // import { Client } from 'discord.js'
 
-import { Channel, Client, VoiceState } from 'discord.js'
+import { Client, VoiceState } from 'discord.js'
 
 /**
  *
@@ -13,33 +13,16 @@ import { Channel, Client, VoiceState } from 'discord.js'
  * @returns
  */
 module.exports = async (client, oldState, newState) => {
-  const discordUser = oldState?.member?.user || newState?.member?.user
+  const discordUser = oldState?.member || newState?.member
   const channel = client.channels.cache.get('824443233983397899')
 
   if (discordUser.bot) return
 
-  if (oldState?.channel) {
-    channel.send(`Usuario \`${discordUser.username}\` saiu no canal ${oldState.channel}`)
+  if (oldState.channelID === '693209402987118704') {
+    channel.send(`Usuario \`${discordUser.displayName}\` (${discordUser}) saiu no canal ${oldState.channel}`)
   }
 
-  if (newState?.channel) {
-    channel.send(`Usuario \`${discordUser.username}\` entrou no canal ${newState.channel}`)
+  if (newState.channelID === '693209402987118704') {
+    channel.send(`Usuario \`${discordUser.displayName}\` (${discordUser}) entrou no canal ${newState.channel}`)
   }
 }
-// const userFromDb = await User.findOneAndUpdate({
-//   discord_id: discordUser.id
-// }, { name: discordUser.username }, { upsert: true })
-
-// const now = new Date()
-
-// const meet = await MeetPresence.findOne({
-//   startTime: { $lt: now },
-//   endTime: { $gt: now },
-//   'voice_channel.id': discordChannel.id
-// }).populate('owner')
-
-// if (meet && isWithinInterval(now, { start: meet.startTime, end: meet.endTime })) {
-//   try {
-//     await MeetPresence.updateOne({ _id: meet._id }, { $addToSet: { participants: userFromDb._id } })
-//   } catch {}
-// }
